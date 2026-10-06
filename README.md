@@ -333,7 +333,7 @@ La prueba permitió comprobar que una persona sin conocimientos técnicos podía
 | Protección de datos considerada   | ✅                              |
 | Análisis crítico realizado        | ✅                              |
 | Usuario externo probado           | ✅                              |
-| URL pública                       | 🔗 (https://share.streamlit.io)           |
+| URL pública                       | https://marianaperezco01-create.github.io/IA-para-abogados-/           |
 | Evidencia de usuario              | 📎 `docs/evidencia-usuario.md` |
 | Historial de desarrollo en GitHub | ✅                              |
 
