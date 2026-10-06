@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARRIENDAIA — Asistente Legal</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --primary-light: #2b6cb0;
+      --accent: #d69e2e;
+      --bg: #f7fafc;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-muted: #718096;
+      --warning-bg: #fffaf0;
+      --warning-border: #dd6b20;
+      --warning-text: #7b341e;
+      --success-bg: #f0fff4;
+      --success-border: #38a169;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px 15px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    .legal-warning { background-color: var(--warning-bg); border-left: 5px solid var(--warning-border); color: var(--warning-text); padding: 16px; border-radius: 6px; margin-bottom: 25px; font-size: 0.95rem; }
+    .header { text-align: center; margin-bottom: 30px; background: var(--card-bg); padding: 30px 20px; border-radius: 12px; border: 1px solid var(--border); }
+    .header h1 { font-size: 2.2rem; color: var(--primary); margin-bottom: 6px; }
+    .header .slogan { font-size: 1.2rem; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+    .header .meta { font-size: 0.85rem; color: var(--text-muted); }
+    .card { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+    h3 { color: var(--primary); margin-bottom: 15px; }
+    .examples-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .btn-example { background: #edf2f7; border: 1px solid var(--border); padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; color: var(--primary); cursor: pointer; text-align: left; }
+    .btn-example:hover { background: #e2e8f0; border-color: var(--primary-light); }
+    .search-box { display: flex; flex-direction: column; gap: 12px; }
+    textarea { width: 100%; height: 90px; padding: 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; color: var(--text); }
+    .btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 20px; font-size: 1rem; font-weight: 600; border-radius: 8px; cursor: pointer; }
+    .btn-submit:hover { background-color: var(--primary-light); }
+    .result-container { display: none; margin-top: 25px; }
+    .result-box { border-radius: 10px; padding: 22px; border: 1px solid var(--border); }
+    .result-success { background-color: var(--success-bg); border-color: var(--success-border); }
+    .result-warning { background-color: var(--warning-bg); border-color: var(--warning-border); }
+    .result-title { font-size: 1.25rem; font-weight: bold; color: var(--primary); margin-bottom: 12px; }
+    .result-section-title { font-weight: 700; color: #2d3748; margin-top: 15px; margin-bottom: 6px; }
+    .legal-quote { background: rgba(0, 0, 0, 0.04); padding: 14px; border-left: 4px solid var(--primary); border-radius: 4px; font-style: italic; font-size: 0.95rem; margin-top: 8px; }
+    .footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="legal-warning">
+      <strong>⚠️ ADVERTENCIA LEGAL OBLIGATORIA:</strong> Esta herramienta es un ejercicio académico desarrollado para el curso de <em>Derecho e Inteligencia Artificial</em> de la <strong>Pontificia Universidad Javeriana</strong>. No constituye asesoría legal ni sustituye la consulta con un abogado profesional. No se almacenan datos personales reales.
+    </div>
+    <div class="header">
+      <h1>⚖️ ARRIENDAIA</h1>
+      <div class="slogan">“Entiende tu contrato. Conoce tus derechos.”</div>
+      <div class="meta">
+        Pontificia Universidad Javeriana · 2026-II · Docente: Pedro Ardila<br>
+        <strong>Autora:</strong> Mariana Perez Correal
+      </div>
+    </div>
+    <div class="card">
+      <h3>💡 Preguntas frecuentes de ejemplo (Haz clic en una):</h3>
+      <div class="examples-grid">
+        <button class="btn-example" onclick="usarEjemplo('¿Cuánto me pueden subir el canon de arrendamiento este año?')">📈 ¿Cuánto pueden subirme el arriendo?</button>
+        <button class="btn-example" onclick="usarEjemplo('¿Con cuánta anticipación debe avisarme el dueño para pedirme el inmueble?')">🚪 ¿Cómo me pueden pedir la casa?</button>
+        <button class="btn-example" onclick="usarEjemplo('¿Quién debe pagar las reparaciones y daños de la vivienda?')">🛠️ ¿Quién paga las reparaciones?</button>
+        <button class="btn-example" onclick="usarEjemplo('¿El arrendador me puede exigir depósitos en efectivo o garantías?')">💵 ¿Me pueden pedir depósito en plata?</button>
+        <button class="btn-example" onclick="usarEjemplo('¿Cómo liquido a un trabajador despedido en mi empresa?')">🛑 Caso fuera de tema (Prueba ética)</button>
+      </div>
+      <div class="search-box">
+        <label for="consulta" style="font-weight: 600; color: var(--primary);">Escribe tu duda sobre arrendamiento de vivienda urbana:</label>
+        <textarea id="consulta" placeholder="Ej: ¿Con cuánto tiempo debo avisar para no renovar el contrato?"></textarea>
+        <button class="btn-submit" onclick="consultarIA()">Consultar en ARRIENDAIA ⚖️</button>
+      </div>
+      <div id="resultadoContainer" class="result-container">
+        <div id="resultadoBox" class="result-box">
+          <div id="resultadoTitulo" class="result-title"></div>
+          <div id="resultadoCuerpo"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📚 Corpus Normativo y Salvaguardas Éticas</h3>
+      <ul style="padding-left: 20px; font-size: 0.9rem; color: #4a5568;">
+        <li><strong>Ley 820 de 2003:</strong> Régimen de Arrendamiento de Vivienda Urbana en Colombia.</li>
+        <li><strong>Código Civil Colombiano:</strong> Artículos 1973 y subsiguientes.</li>
+        <li><strong>Constitución Política de Colombia:</strong> Artículo 51 (Vivienda digna).</li>
+        <li><strong>Salvaguarda Anti-Alucinación:</strong> Si una consulta no está respaldada en el corpus, el sistema se abstiene de especular.</li>
+      </ul>
+    </div>
+    <div class="footer">
+      Proyecto Final — Derecho e Inteligencia Artificial · Pontificia Universidad Javeriana · Mariana Perez Correal
+    </div>
+  </div>
+  <script>
+    const CORPUS = {
+      incremento: {
+        titulo: "Reajuste del canon de arrendamiento",
+        norma: "Ley 820 de 2003, Artículo 20",
+        cita: "«Cada doce (12) meses de ejecución del contrato bajo un mismo precio, el arrendador podrá incrementar el canon hasta en una proporción que no sea superior al ciento por ciento (100%) del incremento que haya tenido el índice de precios al consumidor (IPC) en el año calendario inmediatamente anterior... siempre y cuando el nuevo canon no supere el límite máximo del uno por ciento (1%) del valor comercial del inmueble.»",
+        explicacion: [
+          "El canon de arrendamiento solo se puede subir cada 12 meses de contrato.",
+          "El aumento máximo legal es el porcentaje de inflación (IPC) del año anterior certificado por el DANE.",
+          "En ningún caso el canon mensual puede ser mayor al 1% del valor comercial de la vivienda.",
+          "El arrendador debe avisar por escrito la fecha exacta y el monto del aumento."
+        ]
+      },
+      terminacion_arrendador: {
+        titulo: "Terminación unilateral por parte del arrendador (dueño)",
+        norma: "Ley 820 de 2003, Artículo 22",
+        cita: "«El arrendador podrá dar por terminado unilateralmente el contrato de arrendamiento durante las prórrogas, previo aviso escrito dirigido al arrendatario con una antelación no menor de tres (3) meses y el pago de una indemnización equivalente al precio de tres (3) meses de arrendamiento.»",
+        explicacion: [
+          "Si el inquilino va al día, el dueño solo puede pedir el inmueble durante una prórroga avisando con mínimo tres (3) meses de anticipación.",
+          "El arrendador debe pagar al inquilino una indemnización obligatoria equivalente a tres (3) meses de arriendo.",
+          "Para la fecha de vencimiento, puede no renovar invocando causales de ley con preaviso de 3 meses."
+        ]
+      },
+      terminacion_inquilino: {
+        titulo: "Terminación unilateral por el arrendatario (inquilino)",
+        norma: "Ley 820 de 2003, Artículo 24",
+        cita: "«El arrendatario podrá dar por terminado unilateralmente el contrato dentro del término inicial o durante sus prórrogas, previo aviso escrito con una antelación no menor de tres (3) meses y el pago de una indemnización equivalente a tres (3) meses de arrendamiento.»",
+        explicacion: [
+          "Si el inquilino desea retirarse antes de tiempo sin justa causa, debe avisar con 3 meses de anticipación y pagar 3 meses de indemnización.",
+          "Si es para no renovar en la fecha exacta de vencimiento del contrato, avisa con 3 meses de anticipación y NO paga indemnización.",
+          "Si el dueño corta servicios o el inmueble no es habitable, el inquilino puede terminarlo inmediatamente sin penalidad."
+        ]
+      },
+      depositos: {
+        titulo: "Prohibición legal de depósitos en efectivo",
+        norma: "Ley 820 de 2003, Artículo 16",
+        cita: "«En los contratos de arrendamiento para vivienda urbana no se podrán exigir depósitos en dinero efectivo u otra clase de cauciones reales... Una cláusula en este sentido no producirá efecto alguno.»",
+        explicacion: [
+          "En Colombia la ley prohíbe exigir 'depósitos' de dinero en efectivo o letras de cambio para arrendar vivienda urbana.",
+          "Cualquier cláusula del contrato que pida depósitos en efectivo es nula ante la ley."
+        ]
+      },
+      reparaciones: {
+        titulo: "Reparaciones necesarias vs. locativas",
+        norma: "Código Civil, Art. 1985 y Ley 820 de 2003, Art. 8",
+        cita: "«El arrendador es obligado a hacer en ella todas las reparaciones necesarias, a excepción de las locativas, las cuales corresponden generalmente al arrendatario.»",
+        explicacion: [
+          "Reparaciones necesarias (techos, humedad estructural, tuberías madres, fallas eléctricas del edificio): Las paga el dueño.",
+          "Reparaciones locativas (mantenimiento cotidiano por uso normal, cambiar bombillos, pintura por desgaste habitual): Corresponden al inquilino."
+        ]
+      }
+    };
+    function usarEjemplo(texto) {
+      document.getElementById('consulta').value = texto;
+      consultarIA();
+    }
+    function consultarIA() {
+      const texto = document.getElementById('consulta').value.trim().toLowerCase();
+      const container = document.getElementById('resultadoContainer');
+      const box = document.getElementById('resultadoBox');
+      const titulo = document.getElementById('resultadoTitulo');
+      const cuerpo = document.getElementById('resultadoCuerpo');
+      if (!texto) {
+        alert("Por favor escribe una consulta primero.");
+        return;
+      }
+      container.style.display = 'block';
+      const temasAjenos = ['despido', 'laboral', 'salario', 'divorcio', 'penal', 'delito', 'carcel', 'cárcel', 'comercial', 'herencia'];
+      for (let tema of temasAjenos) {
+        if (texto.includes(tema)) {
+          box.className = 'result-box result-warning';
+          titulo.innerText = '⚠️ Consulta fuera del corpus normativo';
+          cuerpo.innerHTML = `
+            <p>Su consulta menciona temas ajenos al arrendamiento de vivienda urbana (<em>${tema}</em>).</p>
+            <p style="margin-top: 8px;"><strong>Salvaguarda ética:</strong> ARRIENDAIA solo responde sobre normas de vivienda urbana en Colombia (Ley 820 de 2003). Por prevención de respuestas inventadas, el sistema no responde consultas fuera de este marco.</p>
+          `;
+          return;
+        }
+      }
+      let res = null;
+      if (texto.includes('subir') || texto.includes('incremento') || texto.includes('aumento') || texto.includes('ipc') || texto.includes('canon') || texto.includes('precio')) {
+        res = CORPUS.incremento;
+      } else if (texto.includes('pedir') || texto.includes('desalojo') || texto.includes('arrendador') || texto.includes('dueño')) {
+        res = CORPUS.terminacion_arrendador;
+      } else if (texto.includes('entregar') || texto.includes('irme') || texto.includes('terminar') || texto.includes('inquilino') || texto.includes('preaviso')) {
+        res = CORPUS.terminacion_inquilino;
+      } else if (texto.includes('deposito') || texto.includes('depósito') || texto.includes('garantia') || texto.includes('garantía') || texto.includes('plata') || texto.includes('efectivo')) {
+        res = CORPUS.depositos;
+      } else if (texto.includes('reparacion') || texto.includes('reparación') || texto.includes('arreglo') || texto.includes('daño') || texto.includes('gotera')) {
+        res = CORPUS.reparaciones;
+      }
+      if (res) {
+        box.className = 'result-box result-success';
+        titulo.innerText = '📋 ' + res.titulo;
+        cuerpo.innerHTML = `
+          <div class="result-section-title">💡 Explicación en lenguaje claro:</div>
+          <ul style="padding-left: 20px; margin-bottom: 15px;">
+            ${res.explicacion.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+          <div class="result-section-title">📖 Fundamento jurídico oficial:</div>
+          <div style="font-weight: 600; color: #2c5282;">${res.norma}</div>
+          <div class="legal-quote">${res.cita}</div>
+          <p style="margin-top: 15px; font-size: 0.85rem; color: #718096; font-style: italic;">
+            * Orientación académica de carácter informativo. No sustituye la consulta con un abogado profesional.
+          </p>
+        `;
+      } else {
+        box.className = 'result-box result-warning';
+        titulo.innerText = '🔍 Información no encontrada en el corpus';
+        cuerpo.innerHTML = `
+          <p>La situación consultada no se encuentra contemplada en los artículos delimitados de la Ley 820 de 2003.</p>
+          <p style="margin-top: 8px;">Para evitar generar respuestas inventadas o sin respaldo, ARRIENDAIA se abstiene de especular. Consulte la Ley 820 de 2003 o acuda a un consultorio jurídico.</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
